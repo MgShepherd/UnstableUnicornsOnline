@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
+const cors = require('cors');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -11,14 +12,11 @@ const connection = mysql.createConnection({
 connection.connect();
 
 const app = express();
+app.use(cors());
 const port = 8080;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
 app.get('/cards', (req, res) => {
-    connection.query('select * from cards', (err, rows, fields) => {
+    connection.query('select * from cards', (err, rows) => {
         if (!err) {
             res.send(rows);
         } else {
